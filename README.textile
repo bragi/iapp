@@ -1,0 +1,8 @@
+h1. Iapp
+
+h2. Application launcher and library manager for Ioke
+
+Iapp is a package manager for Ioke. It provides:
+* a standard format for applications and libraries written in Ioke
+* command line tool for installation of packages
+* framework for application developers to easily load required libraries
