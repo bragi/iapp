@@ -1,8 +1,59 @@
 h1. Iapp
 
-h2. Application launcher and library manager for Ioke
+h2. Application Launcher and Library Manager for Ioke
 
 Iapp is a package manager for Ioke. It provides:
 * a standard format for applications and libraries written in Ioke
 * command line tool for installation of packages
 * framework for application developers to easily load required libraries
+
+h2. Quick Overview
+
+h3. Using Iapp to Install Library or Application
+
+Installing application or library:
+
+<pre>
+  iapp install bragi-ioke-calc
+</pre>
+
+This downloads and installs application and all it's dependencies. It also creates command line shortcuts to all binaries.
+
+h2. Developer Usage
+
+h3. Creating New Library
+
+To create new iapp based library run:
+
+<pre>
+  iapp create library-name
+</pre>
+
+h2. Ideas
+
+* iapp is a name of executable, extension used for package format and file type. It covers both libraries and applications. To clarify sometimes:
+** iappc - command line tool
+** iappr - archive
+** iappl - distributed application or library
+** iappf - dependency loading framework
+* Automatically create small launchers to all binaries from the iapp. Launchers are created in IAPP_LAUNCHER_PATH=/usr/bin. Each launcher is a simple bash script that contains: iapp launch application-name.
+* All iapprs use naming schema of: author-library-name
+* Iappl may provide several features, by default it provides library-name. There may be several iappls installed that provide the same feature (iappl forks by different authors!). User through a simple file may specify which feature should be default for the system, but he may also choose specific features on per-iappl basis. It's up to user to change defaults, developer may only request feature (not specific implementation of it!)
+* Iappf defines versioning scheme.
+* Iappf defines directory structure. This is however flexible:
+** All files are kept in a single, top-level directory
+** There must be at least one file called application.ik. This file lists all dependencies and specifies kind of iappr. Kinds include:
+*** Iapp Library
+*** Iapp Application
+*** Iapp Plugin
+** Kind may also specify testing framework, documentation framework. Each of those frameworks may require specific directory/file structure.
+** Each kind may add other requirements, Iapp Application for example requires listing binary names and Kind that will be used to start given binary
+
+Example of application.ik for bragi-ioke-calc
+
+<pre>
+Iapp Application("ioke-calc", "1.0.0") do(
+  use("calculator-library")
+  binary("ioke-calc", BragiCalculator)
+)
+</pre>
